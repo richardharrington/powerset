@@ -28,4 +28,27 @@
                n range-len
                sub-seq (split-at n (apply concat (reverse (split-at rot (seq s)))))]
            (set sub-seq)))))
+
+
+; Sebastian's:
+; #custom returns all permutations of a sequence s
+(defn powerset [s]
+  (if (empty? s)
+    #{s}
+    (let [e (first s)
+          power-e (powerset (disj s e))]
+      (clojure.set/union
+        power-e
+        (set (map #(conj % e) power-e))))))
+
+
+; great (non-recursive) solution for powerset, by http://halfabrane.blogspot.com/2011/12/power-sets.html
+  (defn power-set [s]
+    (reduce (fn [ss x] 
+              (concat ss 
+                      (map #(conj % x)
+                           ss))) 
+            [#{}] 
+            s))
+
                
